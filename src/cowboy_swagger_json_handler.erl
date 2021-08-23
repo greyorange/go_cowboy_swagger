@@ -49,4 +49,10 @@ handle_get(Req, State) ->
   Server = maps:get(server, State, '_'),
   HostMatch = maps:get(host, State, '_'),
   Trails = trails:all(Server, HostMatch),
-  {cowboy_swagger:to_json(Trails), Req, State}.
+        
+  {ok,Root_app} = application:get_env(cowboy_swagger,root_app),
+  Path = code:priv_dir(Root_app),
+  {ok, Yaml_file} = file:read_file(Path ++ "/swagger.yaml"),
+  File = unicode:characters_to_list(Yaml_file),
+  {File, Req, State}.
+%   {cowboy_swagger:to_json(Trails), Req, State}.
