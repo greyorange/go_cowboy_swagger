@@ -1,66 +1,209 @@
 <!-- HTML for static distribution bundle build -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Swagger UI</title>
-    <link rel="stylesheet" type="text/css" href="./swagger-ui.css" >
-    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
-    <style>
-      html
-      {
-        box-sizing: border-box;
-        overflow: -moz-scrollbars-vertical;
-        overflow-y: scroll;
-      }
 
-      *,
-      *:before,
-      *:after
-      {
-        box-sizing: inherit;
-      }
+<head>
+  <meta charset="UTF-8">
+  <title>Swagger UI</title>
+  <link rel="stylesheet" type="text/css" href="./swagger-ui.css">
+  <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="/your-path-to-fontawesome/css/fontawesome.css" rel="stylesheet">
+  <link href="/your-path-to-fontawesome/css/brands.css" rel="stylesheet">
+  <link href="/your-path-to-fontawesome/css/solid.css" rel="stylesheet">
 
-      body
-      {
-        margin:0;
-        background: #fafafa;
-      }
-    </style>
+  <style>
+    html {
+      box-sizing: border-box;
+      overflow: -moz-scrollbars-vertical;
+      overflow-y: scroll;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    body {
+      margin: 0;
+      background: #fafafa;
+      min-height: 400px;
+      margin-bottom: 300px;
+      clear: both;
+    }
+
+    body .container {
+      margin-top: 5%;
+    }
+
+    .row {
+      margin: 2%;
+    }
+
+    ul {
+      margin: 1%;
+    }
+
+    ul li {
+      margin: 0.5%;
+    }
+
+    .navbar {
+      margin: 0%;
+    }
+
+    #footer {
+      visibility: hidden;
+      position: fixed;
+      bottom: 0;
+      z-index: 100;
+      background-color: black
+    }
+
+    .navbar-toggler.toggler-example {
+      cursor: pointer;
+      color: whitesmoke;
+      text-decoration-style: solid;
+    }
+
+    .navbar-toggler.toggler-example div {
+      width: 25px;
+      height: 4px;
+      background-color: cornsilk;
+      margin: 4px 0;
+    }
+  </style>
   </head>
 
-  <body>
-    <div id="swagger-ui"></div>
+<body>
+  <div id="swagger-ui"></div>
+  <nav id="top_nav" class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Swagger API</a>
+  </nav>
+  <div class="container mt-10">
+    <div id='button' class="container">
+      <div class="row"><button id="gmc" class="btn btn-outline-success col">GMC</button></div>
+      <div class="row"><button id="put" class="btn btn-outline-success col">PUT</button></div>
+      <div class="row"><button id="pick" class="btn btn-outline-success col">PICK</button></div>
+    </div>
+  </div>
+  
+  
+  <footer id="footer" class="page-footer font-small container-fluid">
+    <button class="navbar-toggler toggler-example purple darken-3" type="button" data-toggle="collapse"
+      data-target="#navbarSupportedContent41" aria-controls="navbarSupportedContent41" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <div></div>
+      <div></div>
+      <div></div>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent41">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <button id="gmc-footer" class="btn btn-outline-success col">GMC</button>
+        </li>
+        <li class="nav-item">
+          <button id="put-footer" class="btn btn-outline-success col">PUT</button>
+        </li>
+        <li class="nav-item">
+          <button id="pick-footer" class="btn btn-outline-success col">PICK</button>
+        </li>
+      </ul>
+    </div>
+  </footer>
 
-    <script src="./swagger-ui-bundle.js"> </script>
-    <script src="./swagger-ui-standalone-preset.js"> </script>
-    <script>
-    window.onload = function() {
+<script type="text/javascript">
+
+</script>
+  <script src="./swagger-ui-bundle.js"> </script>
+  <script src="./swagger-ui-standalone-preset.js"> </script>
+  <script>
+
+  window.onload = function () {
+    document.getElementById("put").onclick = function () {
+      windowView();
+      let url = window.location.search.match(/url=([^&]+)/);
+      if (url && url.length > 1) {
+        url = decodeURIComponent(url[1]);
+      } else {
+        url = window.location.origin + "/api-docs/apps/butler_server";
+      }
+      const ui = swaggerBundle(url)
+      window.ui = ui
+    };
+    document.getElementById("gmc").onclick = function () {
+
+      windowView();
+      let url = window.location.search.match(/url=([^&]+)/);
+      if (url && url.length > 1) {
+        url = decodeURIComponent(url[1]);
+      } else {
+        url = window.location.origin + "/api-docs/apps/gmc";
+      }
+      // Begin Swagger UI call region
+      const ui = swaggerBundle(url)
+      // End Swagger UI call region
+      window.ui = ui
+    };
+    document.getElementById("put-footer").onclick = function () {
+      windowView();
       let url = window.location.search.match(/url=([^&]+)/);
       if (url && url.length > 1) {
           url = decodeURIComponent(url[1]);
-      } else {
-          url = window.location.origin + "/api-docs/swagger.json";
-      }
-      // Begin Swagger UI call region
-      const ui = SwaggerUIBundle({
-        url: url,
-        dom_id: '#swagger-ui',
-        deepLinking: true,
-        presets: [
-          SwaggerUIBundle.presets.apis,
-          SwaggerUIStandalonePreset
-        ],
-        plugins: [
-          SwaggerUIBundle.plugins.DownloadUrl
-        ],
-        layout: "StandaloneLayout"
-      })
-      // End Swagger UI call region
+        } else {
+          url = window.location.origin + "/api-docs/apps/butler_server";
+        }
+        const ui = swaggerBundle(url)
+        window.ui = ui
+      };
+      document.getElementById("gmc-footer").onclick = function () {
 
-      window.ui = ui
+        windowView();
+        let url = window.location.search.match(/url=([^&]+)/);
+        if (url && url.length > 1) {
+          url = decodeURIComponent(url[1]);
+        } else {
+          url = window.location.origin + "/api-docs/apps/gmc";
+        }
+        // Begin Swagger UI call region
+        const ui = swaggerBundle(url)
+        // End Swagger UI call region
+        window.ui = ui
+      };
+
+      function swaggerBundle(url) {
+        return SwaggerUIBundle({
+          url: url,
+          dom_id: '#swagger-ui',
+          deepLinking: true,
+          presets: [
+            SwaggerUIBundle.presets.apis,
+            SwaggerUIStandalonePreset
+          ],
+          plugins: [
+            SwaggerUIBundle.plugins.DownloadUrl
+          ],
+          layout: "StandaloneLayout"
+        })
+      }
+      function windowView() {
+        document.getElementById('top_nav').style.display = 'none';
+        document.getElementById('button').style.display = 'none';
+        document.getElementById('footer').style.visibility = 'initial';
+      }
+
     }
   </script>
-  </body>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
 </html>

@@ -38,9 +38,11 @@ trails(Options) ->
     {dir, StaticFiles, [{mimetypes, cow_mimetypes, all}]},
     #{get => #{hidden => true}}),
   MD = #{get => #{hidden => true}},
-  Handler = trails:trail(
-    "/api-docs/swagger.json", cowboy_swagger_json_handler, Options, MD),
-  [Redirect, Handler, Static].
+  Handler1 = trails:trail(
+    "/api-docs/apps/gmc", cowboy_swagger_json_handler, Options, MD),
+  Handler2 = trails:trail(
+    "/api-docs/apps/butler_server", cowboy_swagger_json_handler, Options, MD),
+  [Redirect, Handler1,Handler2, Static].
 
 %% @private
 -spec cowboy_swagger_priv() -> string().

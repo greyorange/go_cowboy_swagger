@@ -46,13 +46,22 @@ content_types_provided(Req, State) ->
 -spec handle_get(cowboy_req:req(), state()) ->
   {iodata(), cowboy_req:req(), state()}.
 handle_get(Req, State) ->
-  Server = maps:get(server, State, '_'),
-  HostMatch = maps:get(host, State, '_'),
-  Trails = trails:all(Server, HostMatch),
-  {ok,Root_app} = application:get_env(cowboy_swagger,root_app),
-  Path = code:priv_dir(Root_app),
-  {ok, Yaml_file} = file:read_file(Path ++ "/swagger.yaml"),
-  File = unicode:characters_to_list(Yaml_file),
-  {File, Req, State}.
-  
-%   {cowboy_swagger:to_json(Trails), Req, State}.
+  Url = cowboy_req:path(Req),
+  AppName =
+    case erlang:binary_to_list(Url) of
+      "/api-docs/apps/gmc" -> 
+        mhs;
+      "/api-docs/apps/butler_server" ->
+        application:get_env(cowboy_swagger,root_app, butler_server);
+      _ ->
+        undefined
+    end,
+  case AppName of
+    undefined ->
+      {stop, Req, State};
+    AppName -> 
+        Path = code:priv_dir(AppName),
+        {ok, YamlFile} = file:read_file(Path ++ "/swagger.yaml"),
+        File = unicode:characters_to_list(YamlFile),
+        {File, Req, State}
+  end.
