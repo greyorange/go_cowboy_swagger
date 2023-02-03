@@ -49,17 +49,19 @@ handle_get(Req, State) ->
   Url = cowboy_req:path(Req),
   AppName =
     case erlang:binary_to_list(Url) of
-      "/api-docs/apps/gmc" -> 
+      "/api-docs/apps/gmc" ->
         mhs;
       "/api-docs/apps/butler_server" ->
-        application:get_env(cowboy_swagger,root_app, butler_server);
+        application:get_env(cowboy_swagger, root_app, butler_server);
+      "/api-docs/apps/pick" ->
+        ims;
       _ ->
         undefined
     end,
   case AppName of
     undefined ->
       {stop, Req, State};
-    AppName -> 
+    AppName ->
         Path = code:priv_dir(AppName),
         {ok, YamlFile} = file:read_file(Path ++ "/swagger.yaml"),
         File = unicode:characters_to_list(YamlFile),
