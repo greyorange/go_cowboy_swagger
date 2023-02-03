@@ -42,7 +42,9 @@ trails(Options) ->
     "/api-docs/apps/gmc", cowboy_swagger_json_handler, Options, MD),
   Handler2 = trails:trail(
     "/api-docs/apps/butler_server", cowboy_swagger_json_handler, Options, MD),
-  [Redirect, Handler1,Handler2, Static].
+  Handler3 = trails:trail(
+    "/api-docs/apps/pick", cowboy_swagger_json_handler, Options, MD),
+  [Redirect, Handler1, Handler2, Handler3, Static].
 
 %% @private
 -spec cowboy_swagger_priv() -> string().

@@ -149,6 +149,20 @@
       // End Swagger UI call region
       window.ui = ui
     };
+    document.getElementById("pick").onclick = function () {
+
+      windowView();
+      let url = window.location.search.match(/url=([^&]+)/);
+      if (url && url.length > 1) {
+        url = decodeURIComponent(url[1]);
+      } else {
+        url = window.location.origin + "/api-docs/apps/pick";
+      }
+      // Begin Swagger UI call region
+      const ui = swaggerBundle(url)
+      // End Swagger UI call region
+      window.ui = ui
+    };
     document.getElementById("put-footer").onclick = function () {
       windowView();
       let url = window.location.search.match(/url=([^&]+)/);
@@ -168,6 +182,20 @@
           url = decodeURIComponent(url[1]);
         } else {
           url = window.location.origin + "/api-docs/apps/gmc";
+        }
+        // Begin Swagger UI call region
+        const ui = swaggerBundle(url)
+        // End Swagger UI call region
+        window.ui = ui
+      };
+      document.getElementById("pick-footer").onclick = function () {
+
+        windowView();
+        let url = window.location.search.match(/url=([^&]+)/);
+        if (url && url.length > 1) {
+          url = decodeURIComponent(url[1]);
+        } else {
+          url = window.location.origin + "/api-docs/apps/pick";
         }
         // Begin Swagger UI call region
         const ui = swaggerBundle(url)
